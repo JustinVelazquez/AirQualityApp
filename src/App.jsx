@@ -1,21 +1,28 @@
 import { useState } from 'react';
-import CitySearch from './components/CitySearch';
-const apiKey = import.meta.env.VITE_REACT_APP_AQI_API_TOKEN;
 
+//importing Components
+import CitySearch from './components/CitySearch';
+import AirQualityCard from './components/AirQualityCard';
+
+//importing our styling
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+//importing API KEY from .env
+const apiKey = import.meta.env.VITE_REACT_APP_AQI_API_TOKEN;
 function App() {
   const [airData, setAirData] = useState(null);
   const [error, setError] = useState(null);
 
   const getAirQuality = async (city) => {
-  
     try {
       const response = await fetch(
         `https://api.waqi.info/feed/${city}/?token=${apiKey}`
       );
       const data = await response.json();
-      console.log(data);
+
       if (response.ok && data.status === 'ok') {
         setAirData(data.data);
+        console.log(airData);
         setError(null);
       } else {
         setError(
@@ -29,13 +36,24 @@ function App() {
       setAirData(null);
     }
   };
-  
 
   return (
-    <>
-      <h1>hello World</h1>
-      <CitySearch getAirQuality={getAirQuality}  />
-    </>
+    <div className="container">
+      <h1 className="mt-5 mb-3">Air Quality Index Checker</h1>
+      <CitySearch getAirQuality={getAirQuality} />
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      )}
+      {airData && (
+        // Air Quality Card
+        // Polluant info
+        <>
+          <AirQualityCard data={airData} />
+        </>
+      )}
+    </div>
   );
 }
 
