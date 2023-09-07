@@ -3,10 +3,12 @@ import { useState } from 'react';
 //importing Components
 import CitySearch from './components/CitySearch';
 import AirQualityCard from './components/AirQualityCard';
+import PollutantInfo from './components/PollutantInfo';
+import AirQualityTable from './components/AirQualityTable';
 
 //importing our styling
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 //importing API KEY from .env
 const apiKey = import.meta.env.VITE_REACT_APP_AQI_API_TOKEN;
 function App() {
@@ -51,8 +53,10 @@ function App() {
         // Polluant info
         <>
           <AirQualityCard data={airData} />
+          <PollutantInfo pollutant={airData.dominentpol} />
         </>
       )}
+          <AirQualityTable />
     </div>
   );
 }
